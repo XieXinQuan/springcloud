@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="sentinel8401" />
+        <module name="seata-payment-9003" />
+        <module name="seata-order-9002" />
+        <module name="seata-stock-9004" />
+        <module name="consumer7002" />
+        <module name="commons-api" />
+        <module name="seata9001" />
+        <module name="consumer7001" />
+        <module name="payment8003" />
+        <module name="payment8002" />
+        <module name="payment8001" />
+      </profile>
+    </annotationProcessing>
+  </component>
+</project>
