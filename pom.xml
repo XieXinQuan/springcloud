@@ -19,6 +19,8 @@
         <module>seata-payment-9003</module>
         <module>seata-stock-9004</module>
         <module>payment8003</module>
+        <module>Message8011</module>
+        <module>Message8012</module>
     </modules>
     <packaging>pom</packaging>
 

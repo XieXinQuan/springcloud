@@ -1,0 +1,15 @@
+server:
+  port: 8011
+#Rabbitmq
+spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+  application:
+    name: Message
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
