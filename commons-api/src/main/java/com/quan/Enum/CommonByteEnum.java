@@ -6,6 +6,7 @@ package com.quan.Enum;
  * DATE:2020/5/3
  */
 public enum  CommonByteEnum {
+    No(0, "非正常"),
     Normal(1, "正常"),
     Unavailable(2, "不可用");
 
