@@ -7,7 +7,8 @@ package com.quan.Enum;
  */
 public enum  EmailType {
     Normal(1, "下单"),
-    Unavailable(2, "发货");
+    Unavailable(2, "发货"),
+    Code(3, "验证码");
 
     Byte key;
     String value;
