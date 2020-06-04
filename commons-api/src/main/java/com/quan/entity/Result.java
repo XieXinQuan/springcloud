@@ -4,22 +4,22 @@ package com.quan.entity;
  * User: XieXinQuan
  * DATE:2020/1/11
  */
-public class Result {
+public class Result<T> {
     private Integer status;
     private String msg;
-    private Object data;
+    private T data;
 
     public Result(Integer status) {
         this.status = status;
     }
 
-    public Result(Integer status, String msg, Object data) {
+    public Result(Integer status, String msg, T data) {
         this.status = status;
         this.msg = msg;
         this.data = data;
     }
 
-    public Result(Integer status, Object data) {
+    public Result(Integer status, T data) {
         this.status = status;
         this.data = data;
     }
@@ -41,7 +41,7 @@ public class Result {
         return msg;
     }
 
-    public Object getData() {
+    public T getData() {
         return data;
     }
 }
