@@ -10,13 +10,24 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: localhost:8848
-
+        server-addr: 127.0.0.1:8848
+    sentinel:
+      transport:
+        dashboard: localhost:8080
+        port: 8719
+      datasource:
+        dsl:
+          nacos:
+            server-addr: localhost:8848
+            dataId: consumer
+            groupId: DEFAULT_GROUP
+            data-type: json
+            rule-type: flow
 
 
   redis:
     database: 0
-    host: 118.89.133.157
+    host: 127.0.0.1
     port: 6379
     jedis:
       pool:
@@ -26,6 +37,19 @@ spring:
         min-idle: 0
     timeout: 5000
 
-
-  session:
-    store-type: redis
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+feign:
+  httpclient:
+    enabled: true
+    connection-timeout: 5000
+  okhttp:
+    enabled: false
+  client:
+    config:
+      default:
+        connectTimeout: 2000
+        readTimeout: 6000

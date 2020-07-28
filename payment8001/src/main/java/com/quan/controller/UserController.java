@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import javax.mail.MessagingException;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 import java.io.UnsupportedEncodingException;
@@ -52,7 +51,7 @@ public class UserController {
 
 
     @PostMapping("/code")
-    public String code(@RequestParam("email") @Email String email) throws UnsupportedEncodingException, MessagingException {
+    public String code(@RequestParam("email") @Email String email) throws UnsupportedEncodingException {
         String code = userService.code(email);
         log.info("code : {}", code);
         return "验证码已发送.";

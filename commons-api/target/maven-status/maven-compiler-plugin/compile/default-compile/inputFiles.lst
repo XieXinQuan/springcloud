@@ -1,9 +1,12 @@
+E:\springcloud\commons-api\src\main\java\com\quan\entity\User.java
 E:\springcloud\commons-api\src\main\java\com\quan\Enum\CommodityCategoryEnum.java
 E:\springcloud\commons-api\src\main\java\com\quan\Enum\ResultEnum.java
 E:\springcloud\commons-api\src\main\java\com\quan\Enum\CommonEnum.java
+E:\springcloud\commons-api\src\main\java\com\quan\Enum\EmailType.java
 E:\springcloud\commons-api\src\main\java\com\quan\entity\Commodity.java
 E:\springcloud\commons-api\src\main\java\com\quan\util\JwtUtil.java
 E:\springcloud\commons-api\src\main\java\com\quan\entity\UserInfo.java
+E:\springcloud\commons-api\src\main\java\com\quan\exception\GlobalException.java
 E:\springcloud\commons-api\src\main\java\com\quan\util\ResultUtil.java
 E:\springcloud\commons-api\src\main\java\com\quan\Enum\BaseEnum.java
 E:\springcloud\commons-api\src\main\java\com\quan\Enum\CommonByteEnum.java

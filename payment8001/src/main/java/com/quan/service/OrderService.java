@@ -1,6 +1,8 @@
 package com.quan.service;
 
+import cn.hutool.core.date.DateUtil;
 import com.quan.Enum.CommonByteEnum;
+import com.quan.Enum.EmailType;
 import com.quan.Enum.ResultEnum;
 import com.quan.dao.CommodityRepository;
 import com.quan.dao.ShopCarRepository;
@@ -8,14 +10,15 @@ import com.quan.dao.TOrderRepository;
 import com.quan.entity.Commodity;
 import com.quan.entity.ShopCar;
 import com.quan.entity.TOrder;
+import com.quan.entity.User;
 import com.quan.exception.GlobalException;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -31,6 +34,10 @@ public class OrderService extends BaseService{
     TOrderRepository orderRepository;
     @Resource
     CommodityRepository commodityRepository;
+    @Resource
+    StringRedisTemplate stringRedisTemplate;
+    @Resource
+    RabbitTemplate rabbitTemplate;
 
     public Integer addShopCar(Long commodityId, Integer num){
 
@@ -91,6 +98,27 @@ public class OrderService extends BaseService{
         if (commodityId == null){
             shops.stream().forEach(shopCar -> shopCar.setStatus(Byte.parseByte("3")));
             shopCarRepository.saveAll(shops);
+        }
+        //只保存第一条的id即可
+        Long id = null;
+        BigDecimal totalMoney = new BigDecimal("0.00");
+        if (orders.size() > 0) {
+            id = orders.get(0).getId();
+            for (int i = 0; i < orders.size(); i++){
+                totalMoney = totalMoney.add(orders.get(i).getTotalPrice());
+            }
+        }
+
+        if (id != null){
+            User currentUser = getCurrentUser();
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", id);
+            map.put("userId", currentUser.getId());
+            map.put("emailAddress", currentUser.getEmail());
+            map.put("type", EmailType.Normal.getKey());
+            map.put("message", "您在" + DateUtil.format(new Date(), "yyyy-MM-dd hh:mm") + "消费" + totalMoney.toString() + "元");
+            //下单成功、发送邮件提醒
+            rabbitTemplate.convertAndSend("QuanDirectExchange", "QuanDirectRouting", map);
         }
 
     }

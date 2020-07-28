@@ -1,23 +1,25 @@
 package com.quan.service;
 
 import com.quan.Enum.CommonByteEnum;
+import com.quan.Enum.EmailType;
 import com.quan.Enum.ResultEnum;
 import com.quan.dao.UserRepository;
 import com.quan.entity.User;
 import com.quan.exception.GlobalException;
-import com.quan.util.EmailUtil;
 import com.quan.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -41,6 +43,8 @@ public class UserService extends BaseService{
 
     @Resource
     RedisTemplate redisTemplate;
+    @Resource
+    RabbitTemplate rabbitTemplate;
 
     @Resource
     HttpServletRequest request;
@@ -68,6 +72,9 @@ public class UserService extends BaseService{
         user.setBalance(new BigDecimal("0.00"));
         user.setSex(CommonByteEnum.Normal.getKey());
         user.setStatus(CommonByteEnum.Normal.getKey());
+        //设置商家和会员为不是的状态
+        user.setIsMerchant(CommonByteEnum.No.getKey());
+        user.setIsVip(CommonByteEnum.No.getKey());
         userRepository.save(user);
         return user.getId();
     }
@@ -83,15 +90,23 @@ public class UserService extends BaseService{
         return user.getId();
     }
 
-    public String code(String email) throws UnsupportedEncodingException, MessagingException {
+    public String code(String email) throws UnsupportedEncodingException {
         if (StringUtils.isEmpty(email)) throw new GlobalException(ResultEnum.CustomException.getKey(), "手机或邮箱为空");
         String code ;
         do {
             code = new Random().nextInt(10000) + "";
         }while (code.length() < 4);
-        String content = String.format("您的验证码为: %s.", code);
-        String title = String.format("幻听科技");
-        EmailUtil.sendEmail(mailSender, from, email, title, content, null);
+
+        //发送到消息中间件
+        User currentUser = getCurrentUser();
+        Map<String, Object> map = new HashMap<>();
+        map.put("emailAddress", currentUser.getEmail());
+        map.put("type", EmailType.Code.getKey());
+        map.put("message", String.format("您的验证码为: %s.", code));
+        rabbitTemplate.convertAndSend("QuanDirectExchange", "QuanDirectRouting", map);
+
+//        EmailUtil.sendEmail(mailSender, from, email, title, content, null);
+        //存入redis
         redisTemplate.opsForValue().set("code-" + email, code, 5, TimeUnit.MINUTES);
         return code;
     }

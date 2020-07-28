@@ -14,7 +14,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
-import java.util.Optional;
 
 /**
  * @author: xiexinquan520@163.com
@@ -53,19 +52,23 @@ public class LogAspect {
     }
     @AfterReturning(returning = "returnOb", pointcut = "controllerLog()")
     public void doAfterReturning(JoinPoint joinPoint, Object returnOb) {
-        log.info("Request Success Return Data : {}", Optional.ofNullable(returnOb).map(Object::toString).orElse("Null"));
+        log.info("Request Success Return Data : {}", returnOb);
     }
     @Around("controllerLog()")
     public Object Around(ProceedingJoinPoint pjp) throws Throwable {
 
+        long startTime = System.currentTimeMillis();
         Object proceed = pjp.proceed();
-
+        long endTime = System.currentTimeMillis();
         RestController annotation = pjp.getTarget().getClass().getAnnotation(RestController.class);
         if(annotation != null) {
             return ResultUtil.Success(proceed);
         }
+        log.info("Total Time : {}ms.", (endTime - startTime));
 
         return proceed;
 
     }
+
+
 }

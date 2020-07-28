@@ -38,7 +38,14 @@ public class DirectReceiver {
     @RabbitHandler
     public void process(Map<String, Object> messageMap) {
         if (messageMap == null) return;
+        //如果是验证码 不需要入库
+        if (EmailType.Code.getKey().equals(Byte.parseByte(messageMap.get("type").toString()))){
+            log.info("发送验证码消息到:{},Content:{}", messageMap.get("emailAddress"), messageMap.get("message"));
+//            EmailUtil.sendEmail(mailSender, from, messageMap.get("emailAddress"), "幻听科技", messageMap.get("message"), null);
+            return;
+        }
         Long id = Long.parseLong(messageMap.get("id").toString());
+
         //先判断缓存有没有， 再判断数据库
         if (MessageUtil.contains(id) || sendMessageRepository.findByMessageId(id) != null) {
             log.info("消息重复, 重复内容:{}", messageMap.toString());

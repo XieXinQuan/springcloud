@@ -89,12 +89,6 @@
             <version>5.2.5</version>
         </dependency>
 
-        <!--邮件发送核心包-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-mail</artifactId>
-        </dependency>
-
         <!-- redis -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -126,45 +120,51 @@
             <version>0.1.49</version>
         </dependency>
         <!-- ftp end -->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.cloud</groupId>-->
-<!--            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>-->
-<!--            <version>0.9.0.RELEASE</version>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+            <version>0.9.0.RELEASE</version>
+        </dependency>
+
+        <!--rabbitmq-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
     </dependencies>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <mainClass>com.quan.Application8001</mainClass>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-        <resources>
-            <!-- 把 src/main/lib 目录下引用本地 jar 打包到 BOOT-INF/lib/ 目录下（maven依赖的jar也会自动打进该目录） -->
-            <resource>
-                <!-- 需要在项目中新建 src/main/lib 目录并把项目用到的本地 jar 包放入其中 -->
-                <directory>${project.basedir}/src/main/lib</directory>
-                <targetPath>BOOT-INF/lib/</targetPath>
-                <includes>
-                    <include>**/*.jar</include>
-                </includes>
-            </resource>
-            <!-- 把 resources 下的资源文件打包到 BOOT-INF/classes/-->
-            <resource>
-                <directory>src/main/resources</directory>
-                <targetPath>BOOT-INF/classes/</targetPath>
-            </resource>
-        </resources>
-    </build>
+<!--    <build>-->
+<!--        <plugins>-->
+<!--            <plugin>-->
+<!--                <groupId>org.springframework.boot</groupId>-->
+<!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
+<!--                <configuration>-->
+<!--                    <mainClass>com.quan.Application8001</mainClass>-->
+<!--                </configuration>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <goals>-->
+<!--                            <goal>repackage</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
+<!--        </plugins>-->
+<!--        <resources>-->
+<!--            &lt;!&ndash; 把 src/main/lib 目录下引用本地 jar 打包到 BOOT-INF/lib/ 目录下（maven依赖的jar也会自动打进该目录） &ndash;&gt;-->
+<!--            <resource>-->
+<!--                &lt;!&ndash; 需要在项目中新建 src/main/lib 目录并把项目用到的本地 jar 包放入其中 &ndash;&gt;-->
+<!--                <directory>${project.basedir}/src/main/lib</directory>-->
+<!--                <targetPath>BOOT-INF/lib/</targetPath>-->
+<!--                <includes>-->
+<!--                    <include>**/*.jar</include>-->
+<!--                </includes>-->
+<!--            </resource>-->
+<!--            &lt;!&ndash; 把 resources 下的资源文件打包到 BOOT-INF/classes/&ndash;&gt;-->
+<!--            <resource>-->
+<!--                <directory>src/main/resources</directory>-->
+<!--                <targetPath>BOOT-INF/classes/</targetPath>-->
+<!--            </resource>-->
+<!--        </resources>-->
+<!--    </build>-->
 
 </project>

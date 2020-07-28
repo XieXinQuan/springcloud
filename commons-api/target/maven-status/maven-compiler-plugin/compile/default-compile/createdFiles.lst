@@ -1,0 +1,5 @@
+com\quan\entity\User.class
+com\quan\annotation\NeedLogin.class
+com\quan\entity\CommoditySearch.class
+com\quan\Enum\EmailType.class
+com\quan\exception\GlobalException.class

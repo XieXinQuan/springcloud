@@ -12,27 +12,5 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class ConsumerController {
 
-//    @Resource
-//    UserService userService;
-
-//    @PostMapping("/login")
-//    public String login(@RequestParam("username") @Size(max = 5, min = 1, message = "用户名长度在1~5位") String username,
-//                        @RequestParam("password") @Size(max = 18, min = 6, message = "密码的长度为6~18位") String password){
-//
-//        return userService.login(username, password);
-//    }
-//
-//    @PostMapping("/register")
-//    public String register(@RequestParam("username") @Size(max = 5, min = 1, message = "用户名长度在1~5位") String username,
-//                           @RequestParam("password") @Size(max = 18, min = 6, message = "密码的长度为6~18位") String password,
-//                           @RequestParam("code") @Size(max = 4, min = 4, message = "验证码的长度为4位") String code){
-//
-//        return userService.register(username, password, code);
-//    }
-//
-//    @PostMapping("/code")
-//    public String code(@RequestParam("loginName") String loginName){
-//        return userService.code(loginName);
-//    }
 
 }

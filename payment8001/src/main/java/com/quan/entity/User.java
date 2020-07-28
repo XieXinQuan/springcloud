@@ -40,4 +40,8 @@ public class User {
 
     private String encryptPassword;
 
+    private Byte isVip;
+
+    private Byte isMerchant;
+
 }

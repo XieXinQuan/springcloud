@@ -13,8 +13,8 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
  */
 @SpringBootApplication
 @EnableDiscoveryClient
-@EnableFeignClients
 @EnableRedisHttpSession
+@EnableFeignClients
 public class Application7001 {
     public static void main(String[] args) {
         SpringApplication.run(Application7001.class, args);

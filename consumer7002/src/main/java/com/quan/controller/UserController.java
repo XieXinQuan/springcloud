@@ -1,16 +1,16 @@
 package com.quan.controller;
 
-import com.alibaba.fastjson.JSON;
-import org.springframework.data.redis.core.RedisTemplate;
+import com.alibaba.fastjson.JSONObject;
+import com.quan.service.UserService;
+import com.quan.util.JwtUtil;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author: xiexinquan520@163.com
@@ -19,11 +19,12 @@ import java.util.concurrent.TimeUnit;
  */
 @RestController
 @RequestMapping("/test")
-public class UserController extends BaseController{
+@Slf4j
+public class UserController {
     @Resource
     HttpServletRequest request;
     @Resource
-    RedisTemplate redisTemplate;
+    UserService userService;
 
     @RequestMapping("/getSession")
     public String test(){
@@ -37,25 +38,35 @@ public class UserController extends BaseController{
 
         System.out.println("........................ end");
 
-        return "sessionId:" + request.getSession().getId();
+        String session = userService.getSession();
+        return "sessionId:" + request.getSession().getId() + ", data: " + session;
     }
 
-    @RequestMapping("/login")
-    public String login(String username, String password){
-        Map<String, String> map = new HashMap<>(2);
-        map.put("name", username);
-        map.put("password", password);
-        String value = JSON.toJSONString(map);
-        redisTemplate.opsForValue().set("USER_TOKEN" + username, value, 3, TimeUnit.MINUTES);
-        return "Success";
+    @RequestMapping("/login/{username}/{password}")
+    public Object login(@PathVariable("username") String name,
+                        @PathVariable("password") String password) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("uId", name);
+        jsonObject.put("passwd", password);
+        String token = JwtUtil.createToken(jsonObject.toString());
+
+        return token;
+    }
+    @RequestMapping("/getUser")
+    public String getUser(){
+        String token = request.getHeader("token");
+        String subject = JwtUtil.getSubjectFromToken(token);
+        return subject;
     }
 
-    @RequestMapping("info")
-    public String info(){
-        Object user = redisTemplate.opsForValue().get("USER");
-        System.out.println(user);
-        return "";
+    @RequestMapping("/callPayment")
+    public String callPayment(){
+        String header = request.getHeader(JwtUtil.header);
+        String subject = JwtUtil.getSubjectFromToken(header);
+        System.out.println(header);
+        log.info("subject : {}", subject);
+        String session = userService.getSession();
+        return session;
     }
-
 
 }
