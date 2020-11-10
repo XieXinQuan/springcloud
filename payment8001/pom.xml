@@ -78,7 +78,7 @@
         </dependency>
 
         <dependency>
-            <groupId>org.quan</groupId>
+            <groupId>com.quan</groupId>
             <artifactId>commons-api</artifactId>
             <version>1.0</version>
         </dependency>
