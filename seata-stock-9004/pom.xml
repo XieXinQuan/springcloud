@@ -11,8 +11,6 @@
 
     <artifactId>seata-stock-9004</artifactId>
 
-
-
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
